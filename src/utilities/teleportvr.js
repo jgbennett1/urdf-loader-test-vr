@@ -145,6 +145,10 @@ export default class TeleportVR {
   }
 
   controlStart(gp) {
+    if (gp.buttons.length < 2) {
+      console.log("please reconnect controllers rather than using hand recognition")
+      return false;
+    }
     if (gp.buttons[5].pressed) {
       this.settingFPCameraLock = true;
     }
@@ -211,6 +215,13 @@ export default class TeleportVR {
     if (Object.keys(this._gamePads).length > 1) {
       const key = 1;
       const gp = this._gamePads[key];
+      
+      // check if controllers are connected (rather than hand detection controllers)
+      if ( !gp || gp.buttons.length < 2) {
+        //console.log("please reconnect controllers rather than using hand recognition");
+        return;
+      }
+
       if (this.controlStart(gp)) {
         //console.log("hapticActuators = " + gp.hapticActuators)
         //console.log(gp.axes[0] + " " + gp.axes[1] + " " + gp.axes[2] + " " + gp.axes[3])
